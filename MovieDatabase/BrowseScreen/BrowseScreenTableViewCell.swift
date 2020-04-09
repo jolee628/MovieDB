@@ -8,10 +8,6 @@
 
 import UIKit
 
-protocol VoteButtonDelegate: AnyObject {
-    func buttonPresed(upvote: Bool)
-}
-
 class BrowseTableViewCell: UITableViewCell {
     lazy var cellStackView: UIStackView = {
         let stackView = UIStackView(frame: .zero)
@@ -37,9 +33,6 @@ class BrowseTableViewCell: UITableViewCell {
         button.backgroundColor = .black
         button.titleLabel?.textColor = .white
         button.tag = 0
-//        button.layer.cornerRadius = 5
-//        button.layer.borderWidth = 1
-//        button.layer.borderColor = UIColor.white.cgColor
         button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         return button
     }()
@@ -50,9 +43,6 @@ class BrowseTableViewCell: UITableViewCell {
         button.titleLabel?.textColor = .white
         button.backgroundColor = .black
         button.tag = 1
-//        button.layer.cornerRadius = 5
-//        button.layer.borderWidth = 1
-//        button.layer.borderColor = UIColor.white.cgColor
         button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         return button
     }()
@@ -77,9 +67,8 @@ class BrowseTableViewCell: UITableViewCell {
         return label
     }()
     
-    weak var delegate: VoteButtonDelegate?
-    
     var movieId: Int?
+    var didTapVoteButton: ((Int) -> Void)?
     
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -92,8 +81,7 @@ class BrowseTableViewCell: UITableViewCell {
     }
     
     @objc func buttonPressed(_ sender: UIButton!) {
-        print(sender.tag)
-        delegate?.buttonPresed(upvote: false)
+        didTapVoteButton?((sender.tag))
     }
     
     func setUpCell(){

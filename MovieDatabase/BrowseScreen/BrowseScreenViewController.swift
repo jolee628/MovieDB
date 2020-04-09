@@ -70,6 +70,13 @@ class BrowseScreenViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
+    
+    func didTapVoteButton(_ vote: Int) -> Void {
+        let message = vote == 0 ? "You like this movie!" : "Got it, you don't like this movie"
+        let alert = UIAlertController(title: "You have voted!", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Close", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
+    }
 }
 
 extension BrowseScreenViewController: UITableViewDelegate {
@@ -101,6 +108,8 @@ extension BrowseScreenViewController: UITableViewDataSource {
                 cell.apply(viewModel: viewModel.movieDisplayInfos[indexPath.row], image: movieImage!)
             }
         }
+        
+        cell.didTapVoteButton = didTapVoteButton
         cell.layoutIfNeeded()
         return cell
     }
